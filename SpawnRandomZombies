@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SpawnRandomZombies : MonoBehaviour {
+
+	public List<string> Zombie = new List<string> ();
+	public GameObject ZombiePrefab;
+	public float TimeToWait;
+
+	// Use this for initialization
+	void Start () {
+		StartCoroutine (SpawnZombie());
+	}
+
+	void upDate(){
+		TimeToWait = Time.deltaTime * 1;
+	}
+	// Update is called once per frame
+	public IEnumerator SpawnZombie() {
+		yield return new WaitForSeconds(Random.Range(0, TimeToWait));
+		GameObject ZombieSpawned;
+		ZombieSpawned = Instantiate (ZombiePrefab, Random.insideUnitSphere * 5, this.transform.rotation) as GameObject;
+		ZombieSpawned.GetComponent<Zombie>().ID = Zombie[Random.Range(0 ,Zombie.Count)];
+		StartCoroutine (SpawnZombie());
+	}
+}
